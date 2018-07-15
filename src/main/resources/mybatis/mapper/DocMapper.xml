@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lrshuai.doc.dao.DocDao" >
+
+	<insert id="saveDoc" parameterType="pm">
+		insert into doc_api(
+			name,
+			parent_id,
+			content,
+			create_time,
+			user_id
+		)values(
+			#{name},
+			#{parent_id},
+			#{content},
+			#{create_time},
+			#{user_id}
+		)
+	</insert>
+	
+	<update id="delDoc">
+		update 
+			doc_api 
+		set
+			is_del = '1'
+		where
+			 id=#{id}
+	</update>
+	
+	<update id="delMultiDoc" parameterType="String">
+		update 
+			doc_api 
+		set
+			is_del = '1'
+		where
+			 id in
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        or parent_id in
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        
+	</update>
+	
+	<update id="updateDoc" parameterType="pm">
+		update 
+			doc_api 
+		set
+			content = #{content},
+			name=#{name}
+		where
+			 id=#{id}
+	</update>
+
+	<select id="getDocs" parameterType="pm" resultType="pm">
+		SELECT 
+			a.id,
+			a.name,
+			a.parent_id 
+		from 
+			doc_api a 
+		where 
+			a.is_del=0
+		<if test="doc_id != null and doc_id != ''">
+			and a.parent_id=#{doc_id}
+		</if>
+	</select>
+	
+	<select id="getDocsDetail" parameterType="pm" resultType="pm">
+		SELECT 
+			a.id,
+			a.parent_id,
+			a.name,
+			a.content,
+			a.user_id,
+			a.create_time
+		from 
+			doc_api a 
+		where a.id=#{id} and a.is_del=0
+	</select>
+	
+	<delete id="realDel">
+		delete from doc_api where is_del=1
+	</delete>
+	
+	
+</mapper>

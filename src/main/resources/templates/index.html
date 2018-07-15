@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="_ctx" th:content="@{/}" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css" th:href="@{/bootstrap/dist/css/bootstrap.min.css}">
+<link rel="stylesheet" href="/css/menu.css" th:href="@{/css/menu.css}">
+<title>首页</title>
+<style>
+.navbar{
+	margin: 0px !important;
+	padding: 0px !important;
+	height: 50px !important;
+}
+a{
+	color: #fff;
+}
+.md-header{
+	height: 50px;
+	padding: 0px 15px;
+	background: #222;
+	position: fixed;
+	width:100%;
+	top: 0px;
+	z-index: 99999;
+}
+.md-header .doc-name{
+	font-size: 18px;
+	line-height: 50px;
+	height: 50px;
+	text-decoration: none;
+	color: red;
+}
+.md-header .doc-name:HOVER{
+	color: #fff;
+}
+.md-main{
+	background: #ccc;
+	padding: 0px;
+}
+.md-main .md-left{
+	width: 300px;
+	position: fixed;
+	top:50px;
+	bottom: 0px;
+	background: #333;
+	
+}
+.md-main .md-right{
+	position:absolute;
+	top:50px;
+	left:300px;
+	right: 0px;
+}
+
+.modal-dialog{
+	margin: 100px auto;
+}
+	
+@media screen and (min-width: 0px) and (max-width: 767px){
+	.md-main .md-left{
+		left:-300px;
+	}
+	.md-main .md-right{
+		left:0px;
+	}
+	.navbar-nav{
+		display: none;
+	}
+}
+	
+/* 滚动条样式 */	
+::-webkit-scrollbar {  
+    width: 5px;  
+    height: 5px;  
+    background-color: #111;
+}  
+/*定义滚动条轨道 内阴影+圆角*/  
+::-webkit-scrollbar-track {  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    background-color: rgba(255,255,255,0.5);  
+}    
+/*定义滑块 内阴影+圆角*/  
+::-webkit-scrollbar-thumb {  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: rgba(20,200,230,0.5);  
+}  
+/*滑块效果*/
+::-webkit-scrollbar-thumb:hover{
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+	background: rgba(0,0,0,0.4);
+}
+/*IE滚动条颜色*/
+html {
+    scrollbar-face-color:#bfbfbf;/*滚动条颜色*/
+    scrollbar-highlight-color:#000;
+    scrollbar-3dlight-color:#000;
+    scrollbar-darkshadow-color:#000;
+    scrollbar-Shadow-color:#adadad;/*滑块边色*/
+    scrollbar-arrow-color:rgba(0,0,0,0.4);/*箭头颜色*/
+    scrollbar-track-color:#eeeeee;/*背景颜色*/
+}
+</style>
+</head>
+<body>
+<div class="md-header" > 
+   <a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> MD 接口文档</a>
+    <ul class="nav navbar-nav navbar-right">
+        <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a href="/toRegister"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
+        <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a href="/toLogin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+        <li th:unless="${#lists.isEmpty(session.USER_SESSION)}" ><a href="#"><span th:text="'' + ${session.USER_SESSION.nick_name}" class="glyphicon glyphicon-user"></span></a></li> 
+        <li th:unless="${#lists.isEmpty(session.USER_SESSION)}" ><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li> 
+    </ul> 
+</div>
+<div class="md-main">
+	<div class="md-left">
+		<div style="height: 80px;">
+			<div class="input-group" style="margin-top: 10px;padding: 0px 5px; ">
+	            <input type="text" class="form-control">
+	            <span class="input-group-addon">搜索</span>
+	        </div>
+	        <div style="padding: 10px 5px;">
+				<span class="btn btn-info btn-xs" id="addParentDoc">添加分类</span>
+				<span class="btn btn-success btn-xs" id="updateDoc">修改分类</span>
+				<span class="btn btn-danger btn-xs" id="delDoc">删除分类</span>
+				<span class="btn btn-info btn-xs" id="addChildDoc">添加接口</span>
+	        </div>
+		</div>
+		<div class="list">
+			<ul>
+				<li th:each="menu,mstat:${menus}">
+					<p class="title" th:text="${menu.name}">用户模块</p>
+					<ul class='list-se'  th:unless="${#lists.isEmpty(menu.seconds)}">
+						<p class="title" th:text="${menu.name}">用户模块</p>
+						<li  th:each="secondm,smstat:${menu.seconds}"><p><a href="#" th:href="@{/doc/{id}(id=${secondm.id})}" target="mainFrame" th:text="${secondm.name}">用户登录</a></p></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+	<div class="md-right" >
+		<iframe name="mainFrame" id="mainFrame" frameborder="0" src="/templates/main" frameborder="0" scrolling="yes" width="100%" style="min-height: 1000px;" onload="setIframeHeight(this)"></iframe>
+	</div>
+</div>
+
+<!-- 添加分类 -->
+<div class="modal fade" id="addDocModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">添加分类</h4>
+            </div>
+            <div class="modal-body">
+            	<form class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label for="parentName" class="col-sm-2 control-label">分类名称</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="name" id="parentName" placeholder="请输入分类名称">
+				    </div>
+				  </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="submitParentDoc">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加接口 -->
+<div class="modal fade" id="addChildDocModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">添加接口</h4>
+            </div>
+            <div class="modal-body">
+            	<form class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label class="col-sm-2 control-label">所在分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control" name="parent_id" id="add_parentlist">
+					    </select>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="docName" class="col-sm-2 control-label">接口名称</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="name" id="docName" placeholder="请输入接口名称">
+				    </div>
+				  </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="submitChildDoc">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改分类 -->
+<div class="modal fade" id="updateDocModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">修改分类</h4>
+            </div>
+            <div class="modal-body">
+            	<form class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label class="col-sm-2 control-label">修改分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control" name="update_parent_id" id=updateParentList>
+					    </select>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="newName" class="col-sm-2 control-label">新的名称</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="name" id="newName" placeholder="请输入新的分类名称">
+				    </div>
+				  </div>
+				</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="submitUpdateDoc">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除分类 -->
+<div class="modal fade" id="delDocModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">删除分类</h4>
+            </div>
+            <div class="modal-body">
+            		<div id="parentDocList">
+            		</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="submitDelDoc">删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="/js/common.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+if (window != top) {
+    top.location.href = location.href;
+}
+jQuery(document).ready(function($){
+	$('.list ul li p').clickdown();
+	$('.list-se p[class=title]').clickup();
+	$('.list>ul>li').ad();
+	
+	$(".list .list-se li p").click(function(){
+		$(".menu-active").removeClass("menu-active");
+		$(this).addClass("menu-active");
+	});
+	
+	changeLeftHeight();
+	
+	//下面是点击模态框显示
+	$("#addParentDoc").click(function(){
+		$('#addDocModal').modal("show")
+	});
+	$("#updateDoc").click(function(){
+		getParentData("update")
+		$('#updateDocModal').modal("show")
+	});
+	
+	$("#addChildDoc").click(function(){
+		getParentData("add")
+		$('#addChildDocModal').modal("show")
+	});
+	$("#delDoc").click(function(){
+		getParentData("del");
+		$('#delDocModal').modal("show")
+	});
+	
+	//添加分类
+	$("#submitParentDoc").click(function(){
+		submitAddDocData($("#parentName").val(),0,"");
+	});
+	
+	//修改分类
+	$("#submitUpdateDoc").click(function(){
+		submitUpdateDocData($("#updateParentList").val(),$("#newName").val());
+	});
+	
+	//添加接口
+	$("#submitChildDoc").click(function(){
+		submitAddDocData($("#docName").val(),$("#add_parentlist").val(),"");
+	});
+	
+	//删除分类
+	$("#submitDelDoc").click(function(){
+		var ids="";
+		if(confirm("删除此分类，该分类下的接口将一同删除，你确定要删除吗？")){
+			$('input[name="ids"]:checked').each(function(){ 
+				ids = ids + $(this).val()+",";
+			});
+			console.log("ids",ids); 
+			submitDelDocData(ids);
+		}
+	});
+});
+
+$(window).resize(function(){
+	changeLeftHeight();
+	setIframeHeight(document.getElementById('mainFrame'));
+});
+//改变左边菜单的高度
+function changeLeftHeight(){
+	var wh  = $(window).height();
+	$(".list").css("max-height",(wh-150)+"px");
+}
+
+//获取父分类数据
+function getParentData(type){
+	$.ajax({
+		type:"get",
+		url:_ctx+"/getParentDoc",
+		cache:false,
+		dataType:"json",
+		data:{_t:new Date().getTime()},
+		success:function(data){
+			console.log("data",data);
+			if(type == "add"){
+				addParentEl(data.data,$("#add_parentlist"));
+			}else if(type == "del"){
+				addDelParentList(data.data);
+			}else if(type == "update"){
+				addParentEl(data.data,$("#updateParentList"));
+			}
+		}
+	});
+}
+//添加子分类的父分类
+function addParentEl(arr,el){
+	var str = "";
+	for(var i=0;i<arr.length;i++){
+		str = str + "<option value='"+arr[i].id+"' >"+arr[i].name+"</option>";
+	}
+	el.empty();
+	el.append(str);
+}
+
+//删除分类中的父分类
+function addDelParentList(arr){
+	var str = "";
+	for(var i=0;i<arr.length;i++){
+		str = str + "<p><input type='checkbox' name='ids' value='"+arr[i].id+"'> <span>"+arr[i].name+"</span></p>";
+	}
+	$("#parentDocList").empty();
+	$("#parentDocList").append(str);
+}
+//修改分类
+function submitUpdateDocData(id,name){
+	console.log("newname",name);
+	$.ajax({
+		type:"post",
+		url:_ctx+"/doc/update",
+		cache:false,
+		dataType:"json",
+		data:{id:id,name:name,_t:new Date().getTime()},
+		success:function(data){
+			if(data.status == "success"){
+				location.href=_ctx+"/index";
+			}else{
+				alert(data.msg);
+			}
+		}
+	});
+}
+
+//添加分类请求
+function submitAddDocData(name,parentId,content){
+	$.ajax({
+		type:"post",
+		url:_ctx+"/doc/add",
+		cache:false,
+		dataType:"json",
+		data:{name:name,parent_id:parentId,content:content,_t:new Date().getTime()},
+		success:function(data){
+			if(data.status == "success"){
+				location.href=_ctx+"/index";
+			}else{
+				alert(data.msg);
+			}
+		}
+	});
+}
+
+//删除分类请求
+function submitDelDocData(ids){
+	$.ajax({
+		type:"post",
+		url:_ctx+"/doc/del",
+		cache:false,
+		dataType:"json",
+		data:{ids:ids,_t:new Date().getTime()},
+		success:function(data){
+			if(data.status == "success"){
+				location.href=_ctx+"/index";
+			}else{
+				alert(data.msg);
+			}
+		}
+	});
+}
+
+//iframe 自适应
+function setIframeHeight(iframe) {
+	if (iframe) {
+		var iframeWin = iframe.contentWindow
+				|| iframe.contentDocument.parentWindow;
+		if (iframeWin.document.body) {
+			iframe.height = iframeWin.document.documentElement.scrollHeight
+					|| iframeWin.document.body.scrollHeight;
+		}
+	}
+};
+window.onload = function() {
+	setIframeHeight(document.getElementById('mainFrame'));
+};
+</script>
+</body>
+</html>

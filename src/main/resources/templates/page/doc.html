@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Main</title>
+<meta name="_ctx" th:content="@{/}" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" th:href="@{/bootstrap/dist/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/editormd/css/editormd.css}" />
+<link rel="stylesheet" href="/css/doc.css" />
+<style>
+</style>
+</head>
+<body>
+<header>
+	<div class="row">
+		<div class="col-md-4 header-left">
+			<h3 th:text="${doc.name}">放放风</h3>
+		</div>
+		<div class="col-md-8 header-right">
+			<span><i class="glyphicon glyphicon-time"></i> <em th:text="${doc.create_time}">2017-12-12 52:25:10</em></span>
+			<a th:unless="${#lists.isEmpty(session.USER_SESSION)}" th:href="@{/doc/edit/{id}(id=${doc.id})}" class="btn btn-info">编辑</a>
+			<a th:unless="${#lists.isEmpty(session.USER_SESSION)}" href="#" id="delDoc" th:attr="doc_id=${doc.id}" class="btn btn-danger">删除</a>
+		</div>
+	</div>
+</header>
+<div class="mainView">
+	<div id="markdownView" class="editormd-preview-theme">
+	  <textarea name="content" style="display:none;" th:text="${doc.content}"></textarea>
+	</div>
+</div>
+<div class="urlTest">
+	<h3>接口测试</h3>
+	<div class="row">
+		<div class="col-md-2"><span class="col_name">请求方法:</span></div>
+		<div class="col-md-10">
+			<span><input type="radio" name="method" value="get"> GET</span>
+			<span><input type="radio" name="method" value="post"> POST</span>
+		</div>
+		<div class="col-md-2"><span class="col_name">请求地址:</span></div>
+		<div class="col-md-8">
+			<span><input style="width: 100%" type="text" name="url" value="http://localhost/gdstore/item/detailData"/></span>
+		</div>
+		<div class="col-md-2"><span class="btn btn-info">请求</span></div>
+		<div class="col-md-2"><span class="btn btn-info">添加参数</span></div>
+	</div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- editormd start 
+-->
+<script th:src="@{/editormd/lib/marked.min.js}"></script>
+<script th:src="@{/editormd/lib/prettify.min.js}"></script>
+<script th:src="@{/editormd/lib/raphael.min.js}"></script>
+<script th:src="@{/editormd/lib/underscore.min.js}"></script>
+<script th:src="@{/editormd/lib/sequence-diagram.min.js}"></script>
+<script th:src="@{/editormd/lib/flowchart.min.js}"></script>
+<script th:src="@{/editormd/lib/jquery.flowchart.min.js}"></script>
+<script th:src="@{/editormd/editormd.js}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var markdownView;
+    markdownView = editormd.markdownToHTML("markdownView", {
+    	//htmlDecode      : "style,script,iframe",  // you can filter tags decode
+        emoji           : true,
+        taskList        : true,
+        tex             : true,  // 默认不解析
+        flowChart       : true,  // 默认不解析
+        sequenceDiagram : true,  // 默认不解析
+        previewTheme: "dark",//预览主题
+    });
+})
+
+$(function(){
+  $("#delDoc").click(function(){
+    	var id = $(this).attr("doc_id");
+    	if(confirm("你确定要删除吗？")){
+    		submitDelDocData(id);
+    	}
+    });
+})
+
+//删除接口请求
+function submitDelDocData(id){
+	$.ajax({
+		type:"post",
+		url:_ctx+"/doc/del/"+id,
+		cache:false,
+		dataType:"json",
+		data:{_t:new Date().getTime()},
+		success:function(data){
+			if(data.status == "success"){
+				location.href=_ctx+"/index";
+			}else{
+				alert(data.msg);
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>

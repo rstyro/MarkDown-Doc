@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<meta name="_ctx" th:content="@{/}" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/editormd/css/editormd.css" />
+<link rel="stylesheet" href="/css/doc.css" />
+</head>
+<body>
+	<form action="/doc/update/1" th:action="@{/doc/update/{id}(id=${doc.id})}" method="post">
+		<header>
+			<div class="row">
+				<div class="col-md-4 header-left">
+					<input type="text" name="name" th:value="${doc.name}"  value=""/>
+				</div>
+				<div class="col-md-8 header-right">
+					<input type="submit" class="btn btn-info btn-lg header-right" th:value="${btn_name}"  id="submit" value="更新">
+				</div>
+			</div>
+		</header>
+		<div id="test-editormd">
+		  <textarea name="content" th:unless="${#lists.isEmpty(doc)} "  style="display:none;" th:text="${doc.content}"></textarea>                                     
+		  <textarea name="content" th:if="${#lists.isEmpty(doc)} "  style="display:none;">来写接口吧</textarea>                                     
+		</div>
+	</form>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/common.js"></script>
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/editormd/editormd.js"></script>
+
+<script>
+var testEditor=$(function() {
+    editormd("test-editormd", {
+         width: "100%",
+         height: 800,
+         path : _ctx+"/editormd/lib/",
+         //previewTheme : "dark",				//预览的主题
+         //theme : "dark",					//工具栏的主题
+         //editorTheme : "pastel-on-dark",	//编辑栏的主题
+         syncScrolling : true,				//这个看着意思是同步滑动。。。。false的时候，右边不显示了。。。。
+         codeFold : true,						//代码折叠 ?   选中 然后按快捷键 Ctrl + Q,好像设置成false也可以用.....不知道，知道求告知
+         saveHTMLToTextarea : true,   		// 保存 HTML 到 Textarea
+         searchReplace : true,
+         htmlDecode : true,   // 开启 HTML 标签解析，为了安全性，默认不开启    
+         emoji : true,				 // 表情
+         taskList : true,			 // 这个具体不知道,知道求告知
+         tocm            : true,       // Using [TOCM]
+         tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+         flowChart : true,             // 开启流程图支持，默认关闭
+         sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+         imageUpload : true,
+         imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+         imageUploadURL : _ctx+"/upload/uploadImg",        	//上传地址
+         onload : function() {							//加载完后执行
+             console.log('onload', this);
+             //this.fullscreen();
+             //this.unwatch();
+             //this.watch().fullscreen();
+             //this.width("100%");
+             this.height($(document).height()-100);
+             //this.resize("100%", 640);
+         }
+
+    });
+
+  	
+});
+</script>
+</body>
+</html>

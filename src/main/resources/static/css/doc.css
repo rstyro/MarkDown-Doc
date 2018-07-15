@@ -1,0 +1,41 @@
+header{
+	height: 50px;
+	background: #e0e0e0;
+	width: 100%;
+	padding: 0px !important;
+}
+header .row{
+	margin: 0px;
+}
+header .header-left h3{
+	margin-left: 20px;
+	font-weight: bold;
+}
+header input{
+	height: 50px;
+	font-size: 1.5em;
+	padding-left: 10px;
+}
+header .header-right{
+	text-align: right;
+}
+header span{
+	height: 50px;
+	display: inline-block;
+	padding-right: 20px;
+	line-height: 50px;
+}
+header span i{
+	color: #abcdfa;
+}
+header a{
+	margin: 5px 10px;
+}
+.mainView{
+	width: 70%;	
+	float: left;
+}
+.urlTest{
+	width: 30%;
+	float: right;
+}
