@@ -6,7 +6,7 @@ import java.util.Map;
 import top.lrshuai.doc.util.ParameterMap;
 
 public interface IndexService {
-	public List<ParameterMap> getDocs();
+	public List<ParameterMap> getDocs(ParameterMap pm);
 	
 	public Map<String, Object> getParentDoc();
 }

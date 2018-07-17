@@ -34,14 +34,14 @@
 	<div class="row">
 		<div class="col-md-2"><span class="col_name">请求方法:</span></div>
 		<div class="col-md-10">
-			<span><input type="radio" name="method" value="get"> GET</span>
+			<span><input type="radio" name="method" value="get" checked="checked"> GET</span>
 			<span><input type="radio" name="method" value="post"> POST</span>
 		</div>
 		<div class="col-md-2"><span class="col_name">请求地址:</span></div>
 		<div class="col-md-8">
-			<span><input style="width: 100%" type="text" name="url" value="http://localhost/gdstore/item/detailData"/></span>
+			<span><input style="width: 100%" type="text" name="url" value="http://localhost:8002/myCenter/getcoinAdvertisementList"/></span>
 		</div>
-		<div class="col-md-2"><span class="btn btn-info">请求</span></div>
+		<div class="col-md-2"><span class="btn btn-info urlRequest">请求</span></div>
 		<div class="col-md-2"><span class="btn btn-info">添加参数</span></div>
 	</div>
 </div>
@@ -70,7 +70,10 @@ $(document).ready(function() {
         sequenceDiagram : true,  // 默认不解析
         previewTheme: "dark",//预览主题
     });
+    
+   
 })
+
 
 $(function(){
   $("#delDoc").click(function(){
@@ -79,6 +82,24 @@ $(function(){
     		submitDelDocData(id);
     	}
     });
+  
+  $(".urlRequest").click(function(){
+  	var url = $("input[name='url']").val();
+  	var requestMethod = $("input[name='method']:checked").val();
+  	console.log("url:"+url);
+  	console.log("requestMethod:"+requestMethod);
+  	$.ajax({
+  		type:requestMethod,
+  		url:url,
+  		cache:false,
+  		dataType:"json",
+  		data:{pageNum:1,_t:new Date().getTime()},
+  		success:function(data){
+  			console.log("data:",data);
+  		}
+  	});
+  	
+  });
 })
 
 //删除接口请求

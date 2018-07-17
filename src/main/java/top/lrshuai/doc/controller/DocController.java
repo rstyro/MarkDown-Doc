@@ -13,6 +13,7 @@ import top.lrshuai.doc.controller.base.BaseController;
 import top.lrshuai.doc.service.DocService;
 import top.lrshuai.doc.util.Const;
 import top.lrshuai.doc.util.DateUtil;
+import top.lrshuai.doc.util.FileUtils;
 import top.lrshuai.doc.util.ParameterMap;
 import top.lrshuai.doc.util.ReturnModel;
 
@@ -45,6 +46,7 @@ public class DocController extends BaseController{
 		System.out.println("pm="+pm);
 		try {
 			pm.put("create_time", DateUtil.getTime());
+			pm.put("content", FileUtils.getText("model.txt"));
 			docService.saveDoc(pm);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,6 +55,7 @@ public class DocController extends BaseController{
 		}
 		return ReturnModel.getModel("ok", "success", null);
 	}
+	
 	
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable String id,Model model){

@@ -56,15 +56,24 @@
 
 	<select id="getDocs" parameterType="pm" resultType="pm">
 		SELECT 
-			a.id,
+			DISTINCT(a.id) as id,
 			a.name,
 			a.parent_id 
 		from 
 			doc_api a 
+		<if test="keyword != null and keyword != ''">
+			LEFT JOIN
+				doc_api b
+			ON
+				a.id=b.parent_id
+		</if>
 		where 
 			a.is_del=0
 		<if test="doc_id != null and doc_id != ''">
 			and a.parent_id=#{doc_id}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			and (a.`name` like CONCAT('%', #{keyword}, '%') or b.`name` LIKE CONCAT('%', #{keyword}, '%'))
 		</if>
 	</select>
 	

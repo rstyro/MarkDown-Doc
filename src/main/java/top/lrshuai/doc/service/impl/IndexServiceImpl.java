@@ -22,8 +22,7 @@ public class IndexServiceImpl implements IndexService{
 	private Logger log = Logger.getLogger(this.getClass());
 	
 	@Override
-	public List<ParameterMap> getDocs() {
-		ParameterMap pm = new ParameterMap();
+	public List<ParameterMap> getDocs(ParameterMap pm) {
 		pm.put("doc_id", "0");
 		List<ParameterMap> docsList = docDao.getDocs(pm);
 		if(docsList != null){

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.lrshuai.doc.controller.base.BaseController;
 import top.lrshuai.doc.service.IndexService;
 import top.lrshuai.doc.util.Const;
+import top.lrshuai.doc.util.ParameterMap;
 
 @Controller
 public class IndexController extends BaseController{
@@ -19,7 +20,9 @@ public class IndexController extends BaseController{
 	
 	@GetMapping(value={"/","/index"})
 	public String index(Model model){
-		model.addAttribute("menus", indexService.getDocs());
+		ParameterMap pm = this.getParameterMap();
+		model.addAttribute("menus", indexService.getDocs(pm));
+		model.addAttribute("keyword",pm.getString("keyword"));
 		return "index";
 	}
 	

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>top.lrshuai.doc</groupId>
-	<artifactId>doc</artifactId>
+	<artifactId>MarkDown-Doc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
