@@ -9,6 +9,11 @@ import org.springframework.util.ResourceUtils;
 
 public class FileUtils {
 
+	/**
+	 * 读取文件内容
+	 * @param path
+	 * @return
+	 */
 	public static String getText(String path){
 		String result="";
 		FileReader fr =null;
@@ -20,7 +25,7 @@ public class FileUtils {
 			StringBuilder sb = new StringBuilder();
 			String line="";
 			while((line=bfr.readLine()) != null){
-				sb.append(line);
+				sb.append(line).append("\r\n");
 			}
 			result = sb.toString();
 		} catch (IOException e) {

@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css" th:href="@{/bootstrap/dist/css/bootstrap.min.css}">
 <link rel="stylesheet" href="/css/menu.css" th:href="@{/css/menu.css}">
+<link rel="stylesheet" href="/css/scroll.css" th:href="@{/css/scroll.css}">
 <title>首页</title>
 <style>
 .navbar{
@@ -70,39 +71,6 @@ a{
 	}
 }
 	
-/* 滚动条样式 */	
-::-webkit-scrollbar {  
-    width: 5px;  
-    height: 5px;  
-    background-color: #111;
-}  
-/*定义滚动条轨道 内阴影+圆角*/  
-::-webkit-scrollbar-track {  
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
-    background-color: rgba(255,255,255,0.5);  
-}    
-/*定义滑块 内阴影+圆角*/  
-::-webkit-scrollbar-thumb {  
-    border-radius: 10px;  
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
-    background-color: rgba(20,200,230,0.5);  
-}  
-/*滑块效果*/
-::-webkit-scrollbar-thumb:hover{
-	border-radius: 5px;
-	-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-	background: rgba(0,0,0,0.4);
-}
-/*IE滚动条颜色*/
-html {
-    scrollbar-face-color:#bfbfbf;/*滚动条颜色*/
-    scrollbar-highlight-color:#000;
-    scrollbar-3dlight-color:#000;
-    scrollbar-darkshadow-color:#000;
-    scrollbar-Shadow-color:#adadad;/*滑块边色*/
-    scrollbar-arrow-color:rgba(0,0,0,0.4);/*箭头颜色*/
-    scrollbar-track-color:#eeeeee;/*背景颜色*/
-}
 </style>
 </head>
 <body>
@@ -143,7 +111,7 @@ html {
 		
 	</div>
 	<div class="md-right" >
-		<iframe name="mainFrame" id="mainFrame" frameborder="0" src="/templates/main" frameborder="0" scrolling="yes" width="100%"  onload="setIframeHeight(this)"></iframe>
+		<iframe name="mainFrame" id="mainFrame"  src="/templates/main" frameborder="0" scrolling="yes" width="100%"  onload="setIframeHeight()" ></iframe>
 	</div>
 </div>
 
@@ -268,8 +236,10 @@ html {
 if (window != top) {
     top.location.href = location.href;
 }
-//iframe 自适应
-function setIframeHeight(iframe) {
+ 
+function setIframeHeight() {
+	$("#mainFrame").css("min-height",window.screen.height);
+	var iframe=document.getElementById('mainFrame');
 	if (iframe) {
 		var iframeWin = iframe.contentWindow
 				|| iframe.contentDocument.parentWindow;
@@ -279,9 +249,11 @@ function setIframeHeight(iframe) {
 		}
 	}
 };
+
 window.onload = function() {
-	setIframeHeight(document.getElementById('mainFrame'));
+	setIframeHeight();
 };
+
 </script>
 </body>
 </html>
