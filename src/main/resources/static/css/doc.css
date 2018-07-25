@@ -3,12 +3,12 @@ header{
 	background: #e0e0e0;
 	width: 100%;
 	padding: 0px !important;
+	overflow: hidden;
 }
 header .row{
 	margin: 0px;
 }
 header .header-left h3{
-	margin-left: 20px;
 	font-weight: bold;
 }
 header input{
@@ -27,15 +27,4 @@ header span{
 }
 header span i{
 	color: #abcdfa;
-}
-header a{
-	margin: 5px 10px;
-}
-.mainView{
-	width: 70%;	
-	float: left;
-}
-.urlTest{
-	width: 30%;
-	float: right;
 }
