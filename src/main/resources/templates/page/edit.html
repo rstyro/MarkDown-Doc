@@ -5,9 +5,9 @@
 <title>首页</title>
 <meta name="_ctx" th:content="@{/}" />
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="/editormd/css/editormd.css" />
-<link rel="stylesheet" href="/css/doc.css" />
+<link rel="stylesheet" th:href="@{/bootstrap/dist/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/editormd/css/editormd.css}" />
+<link rel="stylesheet" th:href="@{/css/doc.css}" />
 </head>
 <body>
 	<form action="/doc/update/1" th:action="@{/doc/update/{id}(id=${doc.id})}" method="post">
@@ -26,10 +26,10 @@
 		  <textarea name="content" th:if="${#lists.isEmpty(doc)} "  style="display:none;">来写接口吧</textarea>                                     
 		</div>
 	</form>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/common.js"></script>
-<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/editormd/editormd.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/editormd/editormd.js}"></script>
 
 <script>
 var testEditor=$(function() {

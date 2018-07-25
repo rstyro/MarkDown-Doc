@@ -7,44 +7,10 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" th:href="@{/bootstrap/dist/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/editormd/css/editormd.css}" />
-<link rel="stylesheet" href="/css/doc.css" />
-<link rel="stylesheet" href="/css/scroll.css" th:href="@{/css/scroll.css}">
-<link rel="stylesheet" href="/jsonview/json-viewer.css" th:href="@{/jsonview/json-viewer.css}">
+<link rel="stylesheet" th:href="@{/css/doc.css}" />
+<link rel="stylesheet" th:href="@{/css/scroll.css}">
+<link rel="stylesheet" th:href="@{/jsonview/json-viewer.css}">
 <style>
-*{
-	margin: 0px;
-	padding: 0px;
-}
-body{
-	width: 100%;
-}
-.docName{
-	font-size: 26px;
-	font-weight: bold;
-	padding-left: 30px;
-}
-.td-header{
-	width: 100px;
-	font-size: 16px;
-	font-weight: bold;
-}
- input.noBorder{
-    outline-color: invert ;
-	outline-style: none ;
-	outline-width: 0px ;
-	border: none ;
-	border-style: none ;
-	text-shadow: none ;
-	-webkit-appearance: none ;
-	-webkit-user-select: text ;
-	outline-color: transparent ;
-	box-shadow: none;
-}
-.resultData{
-	width: 100%;
-	padding: 10px;
-}
-
 </style>
 </head>
 <body>
@@ -84,7 +50,7 @@ body{
 				    </tr>
 				    <tr>
 				      <td class="td-header" >请求地址:</td>
-				      <td><input style="width: 100%" class="form-control noBorder" type="text" name="url" value="http://localhost:8002/coinAdvertise/queryAdvertisementList/sell?coinCode=ETH&pageNum=1"/></td>
+				      <td><input style="width: 100%" class="form-control noBorder" type="text" name="url" value="http://localhost:8002"/></td>
 				    </tr>
 				  </tbody>
 				</table>
@@ -164,7 +130,7 @@ $(function(){
   			$('.resultData').jsonViewer(data);
   		},
   		error:function (jqXHR, textStatus, errorThrown){
-  			alert(textStatus+" \n详情请看控制台");
+  			alert(textStatus+"\n不支持跨域请求 \n详情请看控制台");
   		}
   	});
   });
