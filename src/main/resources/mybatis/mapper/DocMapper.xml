@@ -84,9 +84,14 @@
 			a.name,
 			a.content,
 			a.user_id,
-			a.create_time
+			a.create_time,
+			b.nick_name
 		from 
 			doc_api a 
+		left join
+			doc_user b
+		on
+			a.user_id=b.user_id
 		where a.id=#{id} and a.is_del=0
 	</select>
 	

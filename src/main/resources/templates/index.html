@@ -14,12 +14,14 @@
 </head>
 <body>
 <div class="md-header" > 
-   <a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> MD 接口文档</a>
+   <a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> OTC.BI 接口文档</a>
     <ul class="nav navbar-nav navbar-right">
-        <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a href="/toRegister"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
-        <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a href="/toLogin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+    <!-- 
+        <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a th:href="@{/toRegister}"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
+     -->
+        <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a th:href="@{/toLogin}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
         <li th:unless="${#lists.isEmpty(session.USER_SESSION)}" ><a href="#"><span th:text="'' + ${session.USER_SESSION.nick_name}" class="glyphicon glyphicon-user"></span></a></li> 
-        <li th:unless="${#lists.isEmpty(session.USER_SESSION)}" ><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li> 
+        <li th:unless="${#lists.isEmpty(session.USER_SESSION)}" ><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li> 
     </ul> 
 </div>
 <div class="md-main">

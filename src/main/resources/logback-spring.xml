@@ -25,7 +25,7 @@
      
     <!-- linux 路径 
     -->
-    <file>/var/logs/blog_info.log</file>
+    <file>/var/log/doc_info.log</file>
     <!-- 日志格式 -->
     <encoder>
         <pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
@@ -45,7 +45,7 @@
       <fileNamePattern>e:/logs/admin_info.%d{yyyy-MM-dd}.log</fileNamePattern>
       -->
       <!-- linux -->
-      <fileNamePattern>/var/logs/blog_info.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <fileNamePattern>/var/log/doc_info.%d{yyyy-MM-dd}.log</fileNamePattern>
       
       <!-- 最大保存时间：30天-->
       <maxHistory>30</maxHistory>
@@ -59,7 +59,7 @@
      -->
     <!-- linux路径
      -->
-    <file>/var/logs/blog_error.log</file>
+    <file>/var/log/doc_error.log</file>
     <!-- 日志格式 -->
     <encoder>
         <pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
@@ -80,7 +80,7 @@
       -->
       <!-- linux 
        -->
-      <fileNamePattern>/var/logs/blog_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <fileNamePattern>/var/log/doc_error.%d{yyyy-MM-dd}.log</fileNamePattern>
       <!-- 最大保存时间：30天-->
       <maxHistory>30</maxHistory>
     </rollingPolicy>

@@ -12,6 +12,7 @@ import top.lrshuai.doc.dao.DocDao;
 import top.lrshuai.doc.service.IndexService;
 import top.lrshuai.doc.util.ParameterMap;
 import top.lrshuai.doc.util.ReturnModel;
+import top.lrshuai.doc.util.Tools;
 
 @Service
 public class IndexServiceImpl implements IndexService{
@@ -28,6 +29,9 @@ public class IndexServiceImpl implements IndexService{
 		if(docsList != null){
 			for(ParameterMap doc:docsList){
 				doc.put("doc_id", doc.getString("id"));
+				if(!Tools.isEmpty(pm.getString("keyword"))){
+					doc.put("keyword", pm.getString("keyword"));
+				}
 				List<ParameterMap> secondDocs = docDao.getDocs(doc);
 				if(secondDocs != null){
 					doc.put("seconds", secondDocs);

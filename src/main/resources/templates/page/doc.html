@@ -17,9 +17,12 @@
 <header>
 	<div class="row">
 		<div class="col-md-4 ">
-			<span class="docName" th:text="${doc.name}">放放风</span>
+			<span class="docName" th:text="'接口名称：'+${doc.name}">放放风</span>
 		</div>
-		<div class="col-md-4 col-md-offset-4">
+		<div class="col-md-2 ">
+			<span class="docName" th:text="'作者：'+${doc.nick_name}">作者：帅大叔</span>
+		</div>
+		<div class="col-md-4 col-md-offset-2">
 			<span><i class="glyphicon glyphicon-time"></i> <em th:text="${doc.create_time}">2017-12-12 52:25:10</em></span>
 			<a th:unless="${#lists.isEmpty(session.USER_SESSION)}" th:href="@{/doc/edit/{id}(id=${doc.id})}" class="btn btn-info">编辑</a>
 			<a th:unless="${#lists.isEmpty(session.USER_SESSION)}" href="#" id="delDoc" th:attr="doc_id=${doc.id}" class="btn btn-danger">删除</a>
