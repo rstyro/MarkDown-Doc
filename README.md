@@ -1,4 +1,9 @@
 # MarkDown-Doc
+### 看名字就知道，这个是一个MarkDown 语法的接口文档
+### 使用方法：
++ 1、创建一个数据库并倒入sql脚本：doc.sql
++ 2、修改 Application.class 中的 `IS_AUTH` 改为`false`(意思就是不用登录也可以看文档，true -- 则需要登录才可观看文档)
++ 3、用户：admin，密码：admin
 ## 示例图如下：
 ![https://github.com/rstyro/MarkDown-Doc/blob/master/img/api.png](https://github.com/rstyro/MarkDown-Doc/blob/master/img/api.png)
 ![https://github.com/rstyro/MarkDown-Doc/blob/master/img/apitest.png](https://github.com/rstyro/MarkDown-Doc/blob/master/img/apitest.png)
