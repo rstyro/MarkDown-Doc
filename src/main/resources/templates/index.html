@@ -5,16 +5,31 @@
 <meta name="_ctx" th:content="@{/}" />
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css" th:href="@{/bootstrap/dist/css/bootstrap.min.css}">
+<!-- 
 <link rel="stylesheet" href="/css/menu.css" th:href="@{/css/menu.css}">
+ -->
+<link rel="stylesheet" href="/css/jquery-accordion-menu.css" th:href="@{/css/jquery-accordion-menu.css}" />
 <link rel="stylesheet" href="/css/scroll.css" th:href="@{/css/scroll.css}">
 <link rel="stylesheet" href="/css/index.css" th:href="@{/css/index.css}">
 <title>首页</title>
 <style>
+	.first{
+		font-size: 22px !important;
+	}
+	.second{
+		font-size: 20px !important;
+	}
+	.third{
+		font-size: 16px !important;
+	}
+	.fourth{
+		font-size: 14px !important;
+	}
 </style>
 </head>
 <body>
 <div class="md-header" > 
-   <a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> OTC.BI 接口文档</a>
+   <a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> 链动云 接口文档</a>
     <ul class="nav navbar-nav navbar-right">
     <!-- 
         <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a th:href="@{/toRegister}"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
@@ -26,12 +41,14 @@
 </div>
 <div class="md-main">
 	<div class="md-left">
-		<div style="height: 80px;">
+		<div style="height: 40px;">
+		<!-- 
 			<div class="input-group" style="margin-top: 10px;padding: 0px 5px; ">
 	            <input type="text" name="keyword" th:value="${keyword}" class="form-control">
 	            <span class="input-group-addon" id="menuSearch">搜索</span>
 	        </div>
-	        <div style="padding: 10px 5px;">
+		 -->
+	        <div style="padding: 10px 20px;">
 				<span class="btn btn-info btn-xs" id="addParentDoc">添加分类</span>
 				<span class="btn btn-success btn-xs" id="updateDoc">修改分类</span>
 				<span class="btn btn-danger btn-xs" id="delDoc">删除分类</span>
@@ -39,20 +56,37 @@
 	        </div>
 		</div>
 		<div class="list">
-			<ul>
+		 <div id="jquery-accordion-menu" class="jquery-accordion-menu black">
+			<ul id="demo-list">
 				<li th:each="menu,mstat:${menus}">
-					<p class="title" th:text="${menu.name}">用户模块</p>
-					<ul class='list-se'  th:unless="${#lists.isEmpty(menu.seconds)}">
-						<p class="title" th:text="${menu.name}">用户模块</p>
-						<li  th:each="secondm,smstat:${menu.seconds}"><p><a href="#" th:href="@{/doc/{id}(id=${secondm.id})}" target="mainFrame" th:text="${secondm.name}">用户登录</a></p></li>
+				<a href="#" th:text="${menu.name}" class="active first">Home </a>
+					<ul class="submenu" th:unless="${#lists.isEmpty(menu.seconds)}">
+						<li  th:each="secondm,smstat:${menu.seconds}" ><a href="#" class="second" th:href="${secondm.docLevel} == 0?@{/doc/{id}(id=${secondm.id})}:'#'"  th:text="${secondm.name}">Web Design </a>
+							<ul class="submenu" th:unless="${#lists.isEmpty(secondm.seconds)}">
+								<li th:each="child,smstats:${secondm.seconds}"><a href="#" class="third" th:href="@{/doc/{id}(id=${child.id})}" th:text="${child.name}">Graphics </a>
+									<ul class="submenu" th:unless="${#lists.isEmpty(child.seconds)}">
+										<li th:each="third,smstats:${child.seconds}"><a href="#" class="fourth" th:href="@{/doc/{id}(id=${third.id})}" th:text="${third.name}">Graphics </a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							
+						</li>
 					</ul>
 				</li>
 			</ul>
+			<!-- 
+				<div class="jquery-accordion-menu-footer">
+					Footer
+				</div>
+			 -->
+			</div>
+			
 		</div>
 		
 	</div>
 	<div class="md-right" >
-		<iframe name="mainFrame" id="mainFrame"  src="/templates/main" frameborder="0" scrolling="yes" width="100%"  onload="setIframeHeight()" ></iframe>
+		<iframe name="mainFrame" id="mainFrame"  th:src="@{/templates/main}" frameborder="0" scrolling="yes" width="100%"  onload="setIframeHeight()" ></iframe>
 	</div>
 </div>
 
@@ -66,6 +100,25 @@
             </div>
             <div class="modal-body">
             	<form class="form-horizontal" role="form">
+            	
+            	<div class="form-group">
+				    <label class="col-sm-2 control-label">顶级分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control" name="addType" id="addType">
+					    	<option value="0">一级分类</option>
+					    	<option value="1">二级分类</option>
+					    	<option value="2">三级分类</option>
+					    </select>
+				    </div>
+				  </div>
+				  
+            	<div class="form-group" id="addGroup">
+				    <label class="col-sm-2 control-label">所在分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control add_parentlist" id="addSelect">
+					    </select>
+				    </div>
+				  </div>
 				  <div class="form-group">
 				    <label for="parentName" class="col-sm-2 control-label">分类名称</label>
 				    <div class="col-sm-10">
@@ -92,13 +145,25 @@
             </div>
             <div class="modal-body">
             	<form class="form-horizontal" role="form">
+            	
 				  <div class="form-group">
-				    <label class="col-sm-2 control-label">所在分类</label>
+				    <label class="col-sm-2 control-label">顶级分类</label>
 				    <div class="col-sm-10">
-					    <select class="form-control" name="parent_id" id="add_parentlist">
+					    <select class="form-control" name="interfaceType" id="interfaceType">
+					    	<option value="0">一级分类</option>
+					    	<option value="1">二级分类</option>
+					    	<option value="2">三级分类</option>
 					    </select>
 				    </div>
 				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-2 control-label">所在分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control add_parentlist" name="parent_id" id="interfaceSelect">
+					    </select>
+				    </div>
+				  </div>
+				  
 				  <div class="form-group">
 				    <label for="docName" class="col-sm-2 control-label">接口名称</label>
 				    <div class="col-sm-10">
@@ -125,6 +190,17 @@
             </div>
             <div class="modal-body">
             	<form class="form-horizontal" role="form">
+            	<div class="form-group">
+				    <label class="col-sm-2 control-label">顶级分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control" name="updateType" id="updateType">
+					    	<option value="0">一级分类</option>
+					    	<option value="1">二级分类</option>
+					    	<option value="2">三级分类</option>
+					    </select>
+				    </div>
+				  </div>
+            	
 				  <div class="form-group">
 				    <label class="col-sm-2 control-label">修改分类</label>
 				    <div class="col-sm-10">
@@ -157,6 +233,16 @@
                 <h4 class="modal-title" id="myModalLabel">删除分类</h4>
             </div>
             <div class="modal-body">
+            	<div class="form-group">
+				    <label class="col-sm-2 control-label">顶级分类</label>
+				    <div class="col-sm-10">
+					    <select class="form-control" name="delType" id="delType">
+					    	<option value="0">一级分类</option>
+					    	<option value="1">二级分类</option>
+					    	<option value="2">三级分类</option>
+					    </select>
+				    </div>
+				  </div>
             		<div id="parentDocList">
             		</div>
             </div>
@@ -170,14 +256,19 @@
 <script th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/js/index.js}"></script>
 <script th:src="@{/js/common.js}"></script>
+<!-- 
 <script th:src="@{/js/menu.js}"></script>
+ -->
+<script th:src="@{/js/jquery-accordion-menu.js}"></script>
 <script th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script type="text/javascript">
 
 if (window != top) {
     top.location.href = location.href;
 }
- 
+$(function(){
+	jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
+})
 function setIframeHeight() {
 	$("#mainFrame").css("min-height",window.screen.height);
 	var iframe=document.getElementById('mainFrame');

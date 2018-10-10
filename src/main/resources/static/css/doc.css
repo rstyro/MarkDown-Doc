@@ -28,7 +28,9 @@ body{
 	box-shadow: none;
 }
 .resultData{
-	width: 100%;
+	overflow-x:auto;
+	max-height: 900px;
+	overflow-y:auto;
 }
 header{
 	height: 50px;

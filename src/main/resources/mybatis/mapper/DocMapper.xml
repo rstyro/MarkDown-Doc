@@ -8,12 +8,18 @@
 			parent_id,
 			content,
 			create_time,
+			<if test="level != null and level != ''">
+			level,
+			</if>
 			user_id
 		)values(
 			#{name},
 			#{parent_id},
 			#{content},
 			#{create_time},
+			<if test="level != null and level != ''">
+			#{level},
+			</if>
 			#{user_id}
 		)
 	</insert>
@@ -58,7 +64,8 @@
 		SELECT 
 			DISTINCT(a.id) as id,
 			a.name,
-			a.parent_id 
+			a.parent_id,
+			a.level as docLevel
 		from 
 			doc_api a 
 		<if test="keyword != null and keyword != ''">
@@ -71,6 +78,9 @@
 			a.is_del=0
 		<if test="doc_id != null and doc_id != ''">
 			and a.parent_id=#{doc_id}
+		</if>
+		<if test="level != null and level != ''">
+			and a.level=#{level}
 		</if>
 		<if test="keyword != null and keyword != ''">
 			and (a.`name` like CONCAT('%', #{keyword}, '%') or b.`name` LIKE CONCAT('%', #{keyword}, '%'))

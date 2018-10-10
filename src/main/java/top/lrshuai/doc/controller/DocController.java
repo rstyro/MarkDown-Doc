@@ -44,11 +44,10 @@ public class DocController extends BaseController{
 		if(user == null)return ReturnModel.getNotAuthModel();
 		pm.put("user_id", user.getString("user_id"));
 		System.out.println("pm="+pm);
-		
 		try {
 			pm.put("create_time", DateUtil.getTime());
 			//不是分类添加模板信息
-			if(!"0".equals(pm.getString("parent_id"))){
+			if("0".equals(pm.getString("level"))){
 				pm.put("content", FileUtils.getText("model.txt"));
 			}
 			docService.saveDoc(pm);

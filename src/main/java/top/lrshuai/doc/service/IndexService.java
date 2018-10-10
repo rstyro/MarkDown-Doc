@@ -8,5 +8,5 @@ import top.lrshuai.doc.util.ParameterMap;
 public interface IndexService {
 	public List<ParameterMap> getDocs(ParameterMap pm);
 	
-	public Map<String, Object> getParentDoc();
+	public Map<String, Object> getParentDoc(ParameterMap pm);
 }

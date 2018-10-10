@@ -26,6 +26,19 @@ public class IndexServiceImpl implements IndexService{
 	public List<ParameterMap> getDocs(ParameterMap pm) {
 		pm.put("doc_id", "0");
 		List<ParameterMap> docsList = docDao.getDocs(pm);
+		String keyword = pm.getString("keyword");
+		addChild(docsList, "seconds",keyword);
+		for(ParameterMap doc:docsList){
+			List<ParameterMap> secondList = (List<ParameterMap>)doc.get("seconds");
+			addChild(secondList, "seconds",keyword);
+			for(ParameterMap second:secondList){
+				List<ParameterMap> thrid = (List<ParameterMap>)second.get("seconds");
+				addChild(thrid, "seconds",keyword);
+				
+			}
+		}
+		
+		/*
 		if(docsList != null){
 			for(ParameterMap doc:docsList){
 				doc.put("doc_id", doc.getString("id"));
@@ -42,15 +55,34 @@ public class IndexServiceImpl implements IndexService{
 		}else{
 			docsList = new ArrayList<>();
 		}
+		*/
 		return docsList;
 	}
 	
+	public void addChild(List<ParameterMap> docsList,String key,String keyword){
+		if(docsList != null){
+			for(ParameterMap doc:docsList){
+				doc.put("doc_id", doc.getString("id"));
+				if(!Tools.isEmpty(keyword)){
+					doc.put("keyword", keyword);
+				}
+				List<ParameterMap> secondDocs = docDao.getDocs(doc);
+				if(secondDocs != null){
+					doc.put(key, secondDocs);
+				}else{
+					doc.put(key, new ArrayList<>());
+				}
+			}
+		}else{
+			docsList = new ArrayList<>();
+		}
+	}
+	
 	@Override
-	public Map<String, Object> getParentDoc() {
+	public Map<String, Object> getParentDoc(ParameterMap pm) {
 		List<ParameterMap> docsList = null;
 		try {
-			ParameterMap pm = new ParameterMap();
-			pm.put("doc_id", "0");
+			System.out.println("pm=====:"+pm);
 			docsList = docDao.getDocs(pm);
 			if(docsList == null){
 				docsList = new ArrayList<>();

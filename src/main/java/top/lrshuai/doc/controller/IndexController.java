@@ -29,7 +29,7 @@ public class IndexController extends BaseController{
 	@GetMapping("/getParentDoc")
 	@ResponseBody
 	public Object getParentDoc(){
-		return indexService.getParentDoc();
+		return indexService.getParentDoc(this.getParameterMap());
 	}
 	
 	@GetMapping("/toLogin")

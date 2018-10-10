@@ -38,7 +38,7 @@ a{
 	position: fixed;
 	top:50px;
 	bottom: 0px;
-	background: #333;
+	background: #000;
 	
 }
 .md-main .md-right{
@@ -54,6 +54,9 @@ a{
 	
 @media screen and (min-width: 0px) and (max-width: 767px){
 	.md-main .md-left{
+		/*
+		transform: translate(-300px, 0)
+		*/
 		left:-300px;
 	}
 	.md-main .md-right{

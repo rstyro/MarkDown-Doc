@@ -60,6 +60,7 @@ public class UploadController {
 			response.getWriter().write( "{\"success\": 1, \"message\":\"上传成功\",\"url\":\"" + resultPath + "\"}" );
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("upload error", e);
 			try {
 				response.getWriter().write( "{\"success\": 0, \"message\":\"上传失败\",\"url\":\""+ "\"}" );
 			} catch (IOException e1) {
