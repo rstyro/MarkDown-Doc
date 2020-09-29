@@ -1,6 +1,7 @@
 package top.lrshuai.doc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,9 @@ import top.lrshuai.doc.util.ParameterMap;
 @Controller
 public class IndexController extends BaseController{
 
+	@Value("${doc.name}")
+	private String docName;
+
 	@Autowired
 	private IndexService indexService;
 	
@@ -23,6 +27,7 @@ public class IndexController extends BaseController{
 		ParameterMap pm = this.getParameterMap();
 		model.addAttribute("menus", indexService.getDocs(pm));
 		model.addAttribute("keyword",pm.getString("keyword"));
+		model.addAttribute("docName",docName);
 		return "index";
 	}
 	

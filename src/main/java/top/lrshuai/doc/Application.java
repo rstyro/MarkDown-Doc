@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application extends SpringBootServletInitializer{
 	
 	//只有登录才能查看文档
-	public static final boolean IS_AUTH = true;
+	public static final boolean IS_AUTH = false;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

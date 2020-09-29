@@ -98,6 +98,15 @@ jQuery(document).ready(function($){
 		console.log("keyword:",keyword);
 		document.getElementById("mainFrame").src=_ctx+"/index?keyword="+keyword;
 	});
+
+	// 菜单隐藏与显示
+	$(".md-menus").click(function () {
+		if($(".md-left").width()>0){
+			$(".md-left").css("width","0px");
+		}else{
+			$(".md-left").css("width","300px");
+		}
+	});
 });
 
 $(window).resize(function(){
@@ -107,7 +116,8 @@ $(window).resize(function(){
 //改变左边菜单的高度
 function changeLeftHeight(){
 	var wh  = $(window).height();
-	$(".list").css("max-height",(wh-150)+"px");
+	console.log("wh",wh)
+	$(".list").css("max-height",(wh-100)+"px");
 }
 
 //获取父分类数据

@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="md-header" > 
-   <a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> 链动云 接口文档</a>
+	<a class="doc-name" href="#"><i class="glyphicon glyphicon-fire"></i> <span th:text="${docName}">我的</span> 接口文档</a>
     <ul class="nav navbar-nav navbar-right">
     <!-- 
         <li th:if="${#lists.isEmpty(session.USER_SESSION)}"><a th:href="@{/toRegister}"><span class="glyphicon glyphicon-user"></span> 注册</a></li> 
@@ -48,7 +48,7 @@
 	            <span class="input-group-addon" id="menuSearch">搜索</span>
 	        </div>
 		 -->
-	        <div style="padding: 10px 20px;">
+	        <div style="padding: 10px 20px;height: 50px;">
 				<span class="btn btn-info btn-xs" id="addParentDoc">添加分类</span>
 				<span class="btn btn-success btn-xs" id="updateDoc">修改分类</span>
 				<span class="btn btn-danger btn-xs" id="delDoc">删除分类</span>
@@ -86,6 +86,7 @@
 		
 	</div>
 	<div class="md-right" >
+		<i class="glyphicon glyphicon-align-justify md-menus"></i>
 		<iframe name="mainFrame" id="mainFrame"  th:src="@{/templates/main}" frameborder="0" scrolling="yes" width="100%"  onload="setIframeHeight()" ></iframe>
 	</div>
 </div>
